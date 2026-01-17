@@ -37,10 +37,10 @@ jobs:
         path: N_m3u8DL-CLI\bin\Release\N_m3u8DL-CLI.exe
 
     - name: Package
-      run: Compress-Archive -Path N_m3u8DL-CLI/* -Destination ${{env.DEST_NAME}}.zip
+      run: Compress-Archive -Path N_m3u8DL-CLI\bin\* -Destination ${{env.DEST_NAME}}.zip
 
     - name: Release
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@v1
       with:
         token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
         tag_name: ${{env.DEST_NAME}}
