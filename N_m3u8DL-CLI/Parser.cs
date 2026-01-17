@@ -797,7 +797,7 @@ namespace N_m3u8DL_CLI
                 int newCount = 0;
                 double newTotalDuration = 0;
                 //int part0cnt = parts[0].Count;
-                int tslen = 0;//int tslen = parts[0][0]["segUri"].ToString().Length;
+                int tslen = parts[0][0]["segUri"].ToString().Length;//int tslen = 0;//
                 bool gotBC = false; //@是否含有BoCai广告
                 JArray newParts = new JArray();
                 foreach (JArray part in parts)
@@ -807,8 +807,8 @@ namespace N_m3u8DL_CLI
                     foreach (var seg in part)
                     {
                         String s = seg["segUri"].ToString();
-                        if(tslen == 0)
-                            tslen = s.Length;
+                        //if(tslen == 0)
+                        //    tslen = s.Length;
                         if(s.Length == tslen)
                         {
                             newPart.Add(seg);
@@ -827,7 +827,7 @@ namespace N_m3u8DL_CLI
                 {
                     newCount = 0;
                     newTotalDuration = 0;
-                    JArray newParts = new JArray();
+                    newParts = new JArray();
                     JArray cntSmall = new JArray();
                     JArray cntLarge = new JArray();
                     foreach (JArray part in parts)
@@ -841,11 +841,11 @@ namespace N_m3u8DL_CLI
                             cntLarge.Add(part);
                         }
                     }
-                    if (cntSmall.Count != 0 && cntLarge.Count != 0)
+                    if (cntSmall.Count > 0 && cntLarge.Count > 0)
                     {
                         gotBC = true;
-                        newParts = cntLarge;
-                        foreach( JArray part in newParts)
+                        //newParts = cntLarge;
+                        foreach( JArray part in cntLarge)
                         {
                             JArray newPart = new JArray();
                             foreach (var seg in part)
