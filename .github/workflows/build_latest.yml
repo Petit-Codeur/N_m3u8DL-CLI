@@ -44,7 +44,7 @@ jobs:
       with:
         tag_name: ${{env.DEST_NAME}}
         name: Release ${{ github.sha }}
-        body: 由提交${{ github.sha }}自动触发编译生成的Release。
+        body: 由提交${{ github.sha }}自动触发编译生成的Release
         draft: false
         prerelease: false
         files: |
