@@ -26,6 +26,12 @@ jobs:
  
     - name: Build app for release
       run: msbuild N_m3u8DL-CLI.sln -t:rebuild -verbosity:diag -property:Configuration=Release
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files:  build/*
+        draft: true
+        fail_on_unmatched_files: true
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4.0.0
