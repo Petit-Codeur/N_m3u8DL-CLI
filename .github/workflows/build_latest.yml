@@ -41,7 +41,7 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v4     # 下载构建产物
         with:
-          name: build-artifacts
+          name: N_m3u8DL-CLI_latest
 
       - name: Create GitHub Release
         id: create_release
