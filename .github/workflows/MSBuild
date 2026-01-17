@@ -9,6 +9,7 @@ on:
 env:
   SOLUTION_FILE_PATH: ./N_m3u8DL-CLI.sln
   BUILD_CONFIGURATION: Release
+  DEST_NAME: auto_release
 
 jobs:
   build:
@@ -26,16 +27,16 @@ jobs:
 
       - name: Package
         working-directory: ${{env.GITHUB_WORKSPACE}}
-        run: Compress-Archive -Path .\N_m3u8DL-CLI -Destination auto_release_test.zip
+        run: Compress-Archive -Path ${{env.SOLUTION_FILE_PATH}} -Destination ${{env.DEST_NAME}}.zip
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
-          tag_name: auto_release_test
+          tag_name: ${{env.DEST_NAME}}
           name: Release ${{ github.sha }}
           body: 由提交${{ github.sha }}自动触发编译生成的Release。
           draft: false
           prerelease: false
           files: |
-            auto_release_test.zip
+            ${{env.DEST_NAME}}.zip
