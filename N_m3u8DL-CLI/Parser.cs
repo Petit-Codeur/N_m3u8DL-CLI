@@ -806,9 +806,10 @@ namespace N_m3u8DL_CLI
                     JArray newPart = new JArray();
                     foreach (var seg in part)
                     {
+                        String s = seg["segUri"].ToString();
                         if(tslen == 0)
-                            tslen = seg["segUri"].ToString().Length;
-                        if(seg["segUri"].ToString().Length == tslen)
+                            tslen = s.Length;
+                        if(s.Length == tslen)
                         {
                             newPart.Add(seg);
                             newCount++;
