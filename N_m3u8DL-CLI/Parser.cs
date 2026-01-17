@@ -827,7 +827,7 @@ namespace N_m3u8DL_CLI
                 {
                     newCount = 0;
                     newTotalDuration = 0;
-                    newParts = new JArray();
+                    JArray newParts = new JArray();
                     JArray cntSmall = new JArray();
                     JArray cntLarge = new JArray();
                     foreach (JArray part in parts)
