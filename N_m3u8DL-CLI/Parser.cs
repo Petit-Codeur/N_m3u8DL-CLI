@@ -790,6 +790,80 @@ namespace N_m3u8DL_CLI
             }
 
 
+            ///////////////////////////////////////////////
+            //@尝试删除BoCai广告
+            if(parts.Count > 1) //@BoCai广告都含有#EXT-X-DISCONTINUITY
+            {
+                int newCount = 0;
+                double newTotalDuration = 0;
+                int part0cnt = parts[0].Count;
+                int tslen = parts[0][0].Length;
+                bool gotBC = false; //@是否含有BoCai广告
+                JArray newParts = new JArray();
+                foreach (JArray part in parts)
+                {
+                    //if(part.Count > 0 && part.Count < 10)
+                    JArray newPart = new JArray();
+                    foreach (var seg in part)
+                    {
+                        if(seg.Length == tslen)
+                        {
+                            newPart.Add(seg);
+                            newCount++;
+                            newTotalDuration += Convert.ToDouble(seg["duration"].ToString());
+                        }
+                        else
+                        {
+                            gotBC = true; //@ts文件名长度不同
+                        }
+                    }
+                    if (newPart.Count != 0)
+                        newParts.Add(newPart);
+                }
+                if(!gotBC)
+                {
+                    newCount = 0;
+                    newTotalDuration = 0;
+                    newParts = new JArray();
+                    JArray cntSmall = new JArray();
+                    JArray cntLarge = new JArray();
+                    foreach (JArray part in parts)
+                    {
+                        if(part.Count > 0 && part.Count < 8) //@假设BC广告ts总数小于8
+                        {
+                            cntSmall.Add(part);
+                        }
+                        else
+                        {
+                            cntLarge.Add(part);
+                        }
+                    }
+                    if (cntSmall.Count != 0 && cntLarge.Count != 0)
+                    {
+                        gotBC = true;
+                        newParts = cntLarge;
+                        foreach( JArray part in newParts)
+                        {
+                            foreach (var seg in part)
+                            {
+                                newCount++;
+                                newTotalDuration += Convert.ToDouble(seg["duration"].ToString());
+                            }
+                            if (newPart.Count != 0)
+                                newParts.Add(newPart);
+                        }
+                    }
+                }
+                if (gotBC && newPart.Count != 0)
+                {
+                    parts = newParts;
+                    jsonM3u8Info["count"] = newCount;
+                    jsonM3u8Info["totalDuration"] = newTotalDuration;
+                }
+            }
+            ///////////////////////////////////////////////
+
+
             //添加
             jsonM3u8Info.Add("segments", parts);
             jsonResult.Add("m3u8Info", jsonM3u8Info);
