@@ -796,8 +796,8 @@ namespace N_m3u8DL_CLI
             {
                 int newCount = 0;
                 double newTotalDuration = 0;
-                int part0cnt = parts[0].Count;
-                int tslen = parts[0]["segUri"].Length;
+                //int part0cnt = parts[0].Count;
+                int tslen = parts[0]["segUri"].ToString().Length;
                 bool gotBC = false; //@是否含有BoCai广告
                 JArray newParts = new JArray();
                 foreach (JArray part in parts)
@@ -806,7 +806,7 @@ namespace N_m3u8DL_CLI
                     JArray newPart = new JArray();
                     foreach (var seg in part)
                     {
-                        if(seg["segUri"].Length == tslen)
+                        if(seg["segUri"].ToString().Length == tslen)
                         {
                             newPart.Add(seg);
                             newCount++;
@@ -856,7 +856,7 @@ namespace N_m3u8DL_CLI
                         }
                     }
                 }
-                if (gotBC && newPart.Count != 0)
+                if (gotBC && newParts.Count != 0)
                 {
                     parts = newParts;
                     jsonM3u8Info["count"] = newCount;
