@@ -7,7 +7,7 @@ on:
     branches: ["main"]
 
 env:
-  SOLUTION_FILE_PATH: ./N_m3u8DL-CLI.sln
+  SOLUTION_FILE_PATH: N_m3u8DL-CLI.sln
   BUILD_CONFIGURATION: Release
   DEST_NAME: auto_release
 
@@ -27,7 +27,7 @@ jobs:
 
       - name: Package
         working-directory: ${{env.GITHUB_WORKSPACE}}
-        run: Compress-Archive -Path N_m3u8DL-CLI\bin\Release\N_m3u8DL-CLI.exe -Destination ${{env.DEST_NAME}}.zip
+        run: Compress-Archive -Path N_m3u8DL-CLI -Destination ${{env.DEST_NAME}}.zip
 
       - name: Release
         uses: softprops/action-gh-release@v2
