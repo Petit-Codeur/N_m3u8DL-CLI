@@ -790,14 +790,14 @@ namespace N_m3u8DL_CLI
             }
 
 
-            ///////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////
             //@尝试删除BoCai广告
             if(parts.Count > 1) //@BoCai广告都含有#EXT-X-DISCONTINUITY
             {
                 int newCount = 0;
                 double newTotalDuration = 0;
                 int part0cnt = parts[0].Count;
-                int tslen = parts[0][0].Length;
+                int tslen = parts[0]["segUri"].Length;
                 bool gotBC = false; //@是否含有BoCai广告
                 JArray newParts = new JArray();
                 foreach (JArray part in parts)
@@ -806,7 +806,7 @@ namespace N_m3u8DL_CLI
                     JArray newPart = new JArray();
                     foreach (var seg in part)
                     {
-                        if(seg.Length == tslen)
+                        if(seg["segUri"].Length == tslen)
                         {
                             newPart.Add(seg);
                             newCount++;
@@ -844,8 +844,10 @@ namespace N_m3u8DL_CLI
                         newParts = cntLarge;
                         foreach( JArray part in newParts)
                         {
+                            JArray newPart = new JArray();
                             foreach (var seg in part)
                             {
+                                newPart.Add(seg);
                                 newCount++;
                                 newTotalDuration += Convert.ToDouble(seg["duration"].ToString());
                             }
@@ -861,7 +863,7 @@ namespace N_m3u8DL_CLI
                     jsonM3u8Info["totalDuration"] = newTotalDuration;
                 }
             }
-            ///////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////
 
 
             //添加
